@@ -1,17 +1,19 @@
-const keyframesIn = [
-  { opacity: 0, transform: 'cale(0.8)' },
-  { opacity: 1, transform: 'cale(1)' }
-];
 
-const keyframesOut = [
-  { opacity: 1, transform: 'cale(0.8)' },
-  { opacity: 0, transform: 'cale(1)' }
-];
+let mesh; // Create an AnimationMixer, and get the list of AnimationClip instances
+const mixer = new THREE.AnimationMixer(mesh);
+const clips = mesh.animations;
 
-const options = { fill: 'both', duration: 600, easing: 'ease' };
+// Update the mixer on each frame
+function update() {
+  mixer.update(deltaSeconds);
+}
 
-this.renderer.domElement.animate(keyframesIn, options);
-const placeHolderAnim = placeholder.animate(keyframesOut, options);
-placeHolderAnim.addEventListener('finish', () => {
-  placeholder.remove();
+// Play a specific animation
+const clip = THREE.AnimationClip.findByName(clips, 'dance');
+const action = mixer.clipAction(clip);
+action.play();
+
+// Play all animations
+clips.forEach(function(clip) {
+  mixer.clipAction(clip).play();
 });
